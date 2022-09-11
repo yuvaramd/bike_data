@@ -6,23 +6,29 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaParser;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
@@ -33,10 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
     private  static  int MICROPHONE_PERMISSION_CODE = 200;
     MediaRecorder mediaRecorder;
+    MediaPlayer player;
+//    final MediaPlayer mediaPlayer1 = MediaPlayer.create(this,R.raw.sr);
 
 
     TextView txt_accel , txt_prevAcc, txt_currentAccel;
     EditText interval_input;
+    EditText beep_input;
     Button saveButton,start_button;
 
     private  SensorManager mSensorManager;
@@ -53,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private double accelarationPreviousValue;
     float x,y,z;
     int interval;
+    int beep_timer;
     String Acc_x,Acc_y,Acc_z,Acc_curr;
     String Gravity_x,Gravity_y,Gravity_z,Gravity_curr;
     String Gyro_x,Gyro_y,Gyro_z,Gyro_curr;
@@ -61,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     String Light_x,Light_curr;
     String Pressure_x,Pressure_curr;
     String LinearAcc_x,LinearAcc_y,LinearAcc_z,LinearAcc_curr;
+    String MaxAmplitude;
     String[] Acc = new String[0]  ;
     String[] Gravity = new String[0]  ;
     String[] Gyro = new String[0]  ;
@@ -69,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     String[] Light = new String[0]  ;
     String[] Pressure = new String[0]  ;
     String[] LinearAcc = new String[0]  ;
+    String[] Sound = new String[0];
 
 //    Acc = new String[1];
 
@@ -128,13 +140,20 @@ public class MainActivity extends AppCompatActivity {
 
     class SayHello extends TimerTask {
         public void run() {
+
+
+
 //            System.out.printf("%.2 /n",x);
 
 //                System.out.println("-------========");
 //                System.out.printf("%.2f %.2f %.2f",x,y,z);
+
             Acc = Arrays.copyOf(Acc, Acc.length + 1);
             Acc[Acc.length - 1] = Acc_curr;
 //            System.out.println(Arrays.toString(Acc));
+
+            Sound = Arrays.copyOf(Sound, Sound.length + 1);
+            Sound[Sound.length - 1] = MaxAmplitude;
 
             Gyro = Arrays.copyOf(Gyro, Gyro.length + 1);
             Gyro[Gyro.length - 1] = Gyro_curr;
@@ -161,11 +180,22 @@ public class MainActivity extends AppCompatActivity {
             LinearAcc[LinearAcc.length - 1] = LinearAcc_curr;
 
 
-            double xy = mediaRecorder.getMaxAmplitude();
-            System.out.println("amp "+  xy );
-
+            double MaxAmplitude_double = mediaRecorder.getMaxAmplitude();
+            System.out.println("amp "+  MaxAmplitude_double );
+            MaxAmplitude = Double.toString(MaxAmplitude_double);
         }
     }
+
+//    class SayBeep extends TimerTask {
+//        public void run() {
+//            System.out.println("hiiiiii");
+//
+////                mediaPlayer.start();
+//        }
+//    }
+
+
+
     private SensorEventListener sensorEventListnerG = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
@@ -288,18 +318,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        player = MediaPlayer.create(this,R.raw.beep);
+        player.setLooping(true);
+
+
+
         System.out.println("Hi");
         if(isMicPresent())
         {
             getMicrophonePermission();
         }
 
-        txt_accel = findViewById(R.id.txt_accel);
-        txt_prevAcc = findViewById(R.id.txt_prevAcc);
-        txt_currentAccel = findViewById(R.id.txt_currentAccel);
+
         start_button = findViewById(R.id.Start_button);
         saveButton = findViewById(R.id.save_button);
         interval_input = findViewById(R.id.interval);
@@ -307,7 +337,9 @@ public class MainActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 createAndSaveFile();
+
             }
         });
 
@@ -319,7 +351,17 @@ public class MainActivity extends AppCompatActivity {
         });
         start_button.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View view) {
+                if (player != null)
+                {
+                    player.start();
+                }
+                else
+                {
+                    System.out.println("empty");
+                }
+//
                 interval_input.getText();
                 Acc = new String[0]  ;
                 Gyro = new String[0]  ;
@@ -329,11 +371,39 @@ public class MainActivity extends AppCompatActivity {
                 Light = new String[0]  ;
                 Pressure = new String[0]  ;
                 LinearAcc = new String[0]  ;
+                Sound = new String[0]  ;
 
                 interval = Integer.parseInt(interval_input.getText().toString());
+
+
+
+//                mediaPlayer.start();
+
                 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
                 executor.scheduleAtFixedRate(new SayHello(), 0, interval, TimeUnit.SECONDS);
+//
+
+
+//                ScheduledExecutorService executor1 = Executors.newScheduledThreadPool(2);
+//                executor1.scheduleAtFixedRate(new SayBeep(), 0, beep_timer, TimeUnit.SECONDS);
+
                 System.out.println(interval);
+
+
+                try {
+                    mediaRecorder = new MediaRecorder();
+                    mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                    mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                    mediaRecorder.setOutputFile(getRecordingFilePath());
+                    mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                    mediaRecorder.prepare();
+                    System.out.println("Started Rec");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                mediaRecorder.start();
+
 
 
 
@@ -387,10 +457,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void createAndSaveFile()
     {
+
+        mediaRecorder.stop();
+        player.stop();
+        mediaRecorder.release();
+        mediaRecorder = null;
+        System.out.println("Rec Stopped");
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("text/palin");
-        intent.putExtra(Intent.EXTRA_TITLE,"testLog.txt");
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
+        intent.putExtra(Intent.EXTRA_TITLE,timeStamp+".txt");
         startActivityForResult(intent,1);
     }
 
@@ -421,6 +498,8 @@ public class MainActivity extends AppCompatActivity {
                     outputStream.write((Arrays.toString(Pressure)).getBytes());
                     outputStream.write(10);
                     outputStream.write((Arrays.toString(LinearAcc)).getBytes());
+                    outputStream.write(10);
+                    outputStream.write((Arrays.toString(Sound)).getBytes());
                     outputStream.close();
                     System.out.println("saved+++++");
                 } catch (IOException e) {
@@ -446,7 +525,14 @@ public class MainActivity extends AppCompatActivity {
 //            return 0;
 //
 //    }
-
+    public String getRecordingFilePath()
+    {
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        File musicDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+        File file = new File(musicDirectory,timeStamp+".wav");
+        return file.getPath();
+    }
 
 
 
