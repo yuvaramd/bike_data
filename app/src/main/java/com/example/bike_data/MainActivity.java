@@ -157,41 +157,43 @@ public class MainActivity extends AppCompatActivity {
 //                System.out.println("-------========");
 //                System.out.printf("%.2f %.2f %.2f",x,y,z);
 
-            Acc = Arrays.copyOf(Acc, Acc.length + 1);
-            Acc[Acc.length - 1] = Acc_curr;
-//            System.out.println(Arrays.toString(Acc));
-
-            Sound = Arrays.copyOf(Sound, Sound.length + 1);
-            Sound[Sound.length - 1] = MaxAmplitude;
-
-            Gyro = Arrays.copyOf(Gyro, Gyro.length + 1);
-            Gyro[Gyro.length - 1] = Gyro_curr;
-//            System.out.println(Arrays.toString(Gravity));
-
-            Mag = Arrays.copyOf(Mag, Mag.length + 1);
-            Mag[Mag.length - 1] = Mag_curr;
-            System.out.println(Arrays.toString(Mag));
-//            System.out.println(interval_input.getText());
-
-            Gravity = Arrays.copyOf(Gravity, Gravity.length + 1);
-            Gravity[Gravity.length - 1] = Gravity_curr;
-
-            Orientation = Arrays.copyOf(Orientation, Orientation.length + 1);
-            Orientation[Orientation.length - 1] = Orientation_curr;
-
-            Light = Arrays.copyOf(Light, Light.length + 1);
-            Light[Light.length - 1] = Light_curr;
-
-            Pressure = Arrays.copyOf(Pressure, Pressure.length + 1);
-            Pressure[Pressure.length - 1] = Pressure_curr;
-
-            LinearAcc = Arrays.copyOf(LinearAcc, LinearAcc.length + 1);
-            LinearAcc[LinearAcc.length - 1] = LinearAcc_curr;
-
+//            Acc = Arrays.copyOf(Acc, Acc.length + 1);
+//            Acc[Acc.length - 1] = Acc_curr;
+////            System.out.println(Arrays.toString(Acc));
 
             double MaxAmplitude_double = mediaRecorder.getMaxAmplitude();
             System.out.println("amp "+  MaxAmplitude_double );
             MaxAmplitude = Double.toString(MaxAmplitude_double);
+//
+            Sound = Arrays.copyOf(Sound, Sound.length + 1);
+            Sound[Sound.length - 1] = MaxAmplitude;
+//
+//            Gyro = Arrays.copyOf(Gyro, Gyro.length + 1);
+//            Gyro[Gyro.length - 1] = Gyro_curr;
+////            System.out.println(Arrays.toString(Gravity));
+//
+//            Mag = Arrays.copyOf(Mag, Mag.length + 1);
+//            Mag[Mag.length - 1] = Mag_curr;
+//            System.out.println(Arrays.toString(Mag));
+////            System.out.println(interval_input.getText());
+//
+//            Gravity = Arrays.copyOf(Gravity, Gravity.length + 1);
+//            Gravity[Gravity.length - 1] = Gravity_curr;
+//
+//            Orientation = Arrays.copyOf(Orientation, Orientation.length + 1);
+//            Orientation[Orientation.length - 1] = Orientation_curr;
+//
+//            Light = Arrays.copyOf(Light, Light.length + 1);
+//            Light[Light.length - 1] = Light_curr;
+//
+//            Pressure = Arrays.copyOf(Pressure, Pressure.length + 1);
+//            Pressure[Pressure.length - 1] = Pressure_curr;
+//
+//            LinearAcc = Arrays.copyOf(LinearAcc, LinearAcc.length + 1);
+//            LinearAcc[LinearAcc.length - 1] = LinearAcc_curr;
+
+
+
         }
     }
 
