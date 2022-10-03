@@ -95,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
             Acc_z = Float.toString(sensorEvent.values[2]);
             Acc_curr = Acc_x+" "+Acc_y+" "+Acc_z;
 
+            Acc = Arrays.copyOf(Acc, Acc.length + 1);
+            Acc[Acc.length - 1] = Acc_curr;
+
         }
 
         @Override
@@ -108,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
 
             Pressure_x = Float.toString(sensorEvent.values[0]);
             Pressure_curr = Pressure_x;
+
+            Pressure = Arrays.copyOf(Pressure, Pressure.length + 1);
+            Pressure[Pressure.length - 1] = Pressure_curr;
 
         }
 
@@ -125,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
             LinearAcc_y = Float.toString(sensorEvent.values[1]);
             LinearAcc_z = Float.toString(sensorEvent.values[2]);
             LinearAcc_curr = LinearAcc_x+" "+LinearAcc_y+" "+LinearAcc_z;
+
+            LinearAcc = Arrays.copyOf(LinearAcc, LinearAcc.length + 1);
+            LinearAcc[LinearAcc.length - 1] = LinearAcc_curr;
 
         }
 
@@ -205,6 +214,9 @@ public class MainActivity extends AppCompatActivity {
             Gyro_z = Float.toString(sensorEvent.values[2]);
             Gyro_curr = Gyro_x+" "+Gyro_y+" "+Gyro_z;
 
+            Gyro = Arrays.copyOf(Gyro, Gyro.length + 1);
+            Gyro[Gyro.length - 1] = Gyro_curr;
+
 
         }
 
@@ -226,6 +238,9 @@ public class MainActivity extends AppCompatActivity {
             Gravity_z = Float.toString(sensorEvent.values[2]);
             Gravity_curr = Gravity_x+" "+Gravity_y+" "+Gravity_z;
 
+            Gravity = Arrays.copyOf(Gravity, Gravity.length + 1);
+            Gravity[Gravity.length - 1] = Gravity_curr;
+
 
         }
 
@@ -246,6 +261,9 @@ public class MainActivity extends AppCompatActivity {
             Orientation_y = Float.toString(sensorEvent.values[1]);
             Orientation_z = Float.toString(sensorEvent.values[2]);
             Orientation_curr = Orientation_x+" "+Orientation_y+" "+Orientation_z;
+
+            Orientation = Arrays.copyOf(Orientation, Orientation.length + 1);
+            Orientation[Orientation.length - 1] = Orientation_curr;
 
 
         }
@@ -290,6 +308,9 @@ public class MainActivity extends AppCompatActivity {
             Mag_z = Float.toString(sensorEvent.values[2]);
             Mag_curr = Mag_x+" "+Mag_y+" "+Mag_z;
 
+            Mag = Arrays.copyOf(Mag, Mag.length + 1);
+            Mag[Mag.length - 1] = Mag_curr;
+
         }
 
         @Override
@@ -304,6 +325,9 @@ public class MainActivity extends AppCompatActivity {
 
             Light_x = Float.toString(sensorEvent.values[0]);
             Light_curr = Light_x;
+
+            Light = Arrays.copyOf(Light, Light.length + 1);
+            Light[Light.length - 1] = Light_curr;
 
         }
 
@@ -380,9 +404,10 @@ public class MainActivity extends AppCompatActivity {
 //                mediaPlayer.start();
 
                 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-                executor.scheduleAtFixedRate(new SayHello(), 0, interval, TimeUnit.SECONDS);
+                executor.scheduleAtFixedRate(new SayHello(), 0, interval, TimeUnit.MILLISECONDS);
 //
-
+//                SayHello instnace = new SayHello();
+//                instnace.run();
 
 //                ScheduledExecutorService executor1 = Executors.newScheduledThreadPool(2);
 //                executor1.scheduleAtFixedRate(new SayBeep(), 0, beep_timer, TimeUnit.SECONDS);
