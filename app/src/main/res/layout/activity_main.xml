@@ -35,7 +35,7 @@
         android:layout_width="108dp"
         android:layout_height="42dp"
         android:ems="10"
-        android:inputType="numberSigned"
+        android:inputType="number|numberDecimal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

@@ -13,7 +13,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.MediaParser;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -22,7 +21,6 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.File;
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private double accelarationCurrentValue;
     private double accelarationPreviousValue;
     float x,y,z;
-    int interval;
+    float interval;
     int beep_timer;
     String Acc_x,Acc_y,Acc_z,Acc_curr;
     String Gravity_x,Gravity_y,Gravity_z,Gravity_curr;
@@ -167,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
 //
             Sound = Arrays.copyOf(Sound, Sound.length + 1);
             Sound[Sound.length - 1] = MaxAmplitude;
+            System.out.println(MaxAmplitude);
+
 //
 //            Gyro = Arrays.copyOf(Gyro, Gyro.length + 1);
 //            Gyro[Gyro.length - 1] = Gyro_curr;
@@ -399,14 +399,14 @@ public class MainActivity extends AppCompatActivity {
                 LinearAcc = new String[0]  ;
                 Sound = new String[0]  ;
 
-                interval = Integer.parseInt(interval_input.getText().toString());
+                interval = Float.parseFloat(interval_input.getText().toString());
 
 
 
 //                mediaPlayer.start();
 
                 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-                executor.scheduleAtFixedRate(new SayHello(), 0, interval, TimeUnit.MILLISECONDS);
+                executor.scheduleAtFixedRate(new SayHello(), 0, (long) interval, TimeUnit.MILLISECONDS);
 //
 //                SayHello instnace = new SayHello();
 //                instnace.run();
