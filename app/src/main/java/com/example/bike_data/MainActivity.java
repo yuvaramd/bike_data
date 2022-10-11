@@ -344,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        player = MediaPlayer.create(this,R.raw.beep);
+        player = MediaPlayer.create(this,R.raw.beep15);
         player.setLooping(true);
 
 
