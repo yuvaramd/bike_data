@@ -159,13 +159,19 @@ public class MainActivity extends AppCompatActivity {
 //            Acc[Acc.length - 1] = Acc_curr;
 ////            System.out.println(Arrays.toString(Acc));
 
-            double MaxAmplitude_double = mediaRecorder.getMaxAmplitude();
-            System.out.println("amp "+  MaxAmplitude_double );
-            MaxAmplitude = Double.toString(MaxAmplitude_double);
+
 //
             Sound = Arrays.copyOf(Sound, Sound.length + 1);
             Sound[Sound.length - 1] = MaxAmplitude;
             System.out.println(MaxAmplitude);
+
+//            setContentView(R.layout.);
+            TextView textView = (TextView) findViewById(R.id.go);
+            textView.setText(MaxAmplitude);
+
+            double MaxAmplitude_double = mediaRecorder.getMaxAmplitude();
+            System.out.println("amp "+  MaxAmplitude_double );
+            MaxAmplitude = Double.toString(MaxAmplitude_double);
 
 //
 //            Gyro = Arrays.copyOf(Gyro, Gyro.length + 1);
@@ -206,6 +212,9 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
 
+//    setContentView(R.layout.);
+//    TextView textView = (TextView) findViewById(R.id.go);
+//    textView.setText("text you want to display");
 
     private SensorEventListener sensorEventListnerG = new SensorEventListener() {
         @Override
@@ -403,6 +412,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
 //                mediaPlayer.start();
 
                 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -496,6 +506,8 @@ public class MainActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
         intent.putExtra(Intent.EXTRA_TITLE,timeStamp+".txt");
         startActivityForResult(intent,1);
+        TextView textView = (TextView) findViewById(R.id.go);
+        textView.setText("99");
     }
 
     @Override
